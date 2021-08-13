@@ -15,17 +15,16 @@ func main() {
   if err != nil {
     log.Fatalf("Failed to set up Firebase app: %v", err)
   }
-  
+
   db, err := app.Firestore(context.Background())
   if err != nil {
     log.Fatalf("Failed to access Firestore: %v", err)
   }
 
-  {
-    _, _, err := db.Collection("games").Add(context.Background(), entity.CreateGame(entity.CreatePlayer("Normie")))
-    if err != nil {
-      log.Printf("An error has occurred: %s", err)
-    }
-  } 
+  _, _, err = db.Collection("games").Add(context.Background(), entity.CreateGame(entity.CreatePlayer("Normie")))
+  if err != nil {
+     log.Fatalf("Failed to create a Game document: %v", err)
+  }
+  
   defer db.Close()
 }
