@@ -1,19 +1,33 @@
 package entity
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 type Game struct {
-	Stage string
-	Players []Player
 	CreatedOn time.Time
+	IsActive  bool
+	Players   []Player
+	Stage     string
 }
 
 func CreateGame(p Player) Game {
- return Game {
-	 Stage: "lobby",
-	 CreatedOn: time.Now(),
-	 Players: []Player {
-        p,
-      },
- }
+	return Game{
+		CreatedOn: time.Now(),
+		IsActive:  true,
+		Players: []Player{
+			p,
+		},
+		Stage: "lobby",
+	}
+}
+
+func (g *Game) AddPlayer(p Player) {
+	g.Players = append(g.Players, p)
+	fmt.Printf("players: %v", g.Players)
+}
+
+func (g *Game) UpdateStage(s string) {
+	g.Stage = s
 }

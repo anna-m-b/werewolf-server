@@ -13,3 +13,12 @@ func CreatePlayer(name string) Player {
 		IsAlive: true,
 	}
 }
+
+func ( p *Player) SetRole(r string) {
+	p.Role = r
+}
+
+func ( p *Player) KillPlayer() {
+	p.IsAlive = false
+}
+

@@ -1,4 +1,4 @@
-package main
+package firestore
 
 import (
 	"context"
@@ -9,7 +9,7 @@ import (
 	"google.golang.org/api/option"
 )
 
-func main() {
+func init() {
   sa := option.WithCredentialsFile("./ServiceAccount.json")
   app, err := firebase.NewApp(context.Background(), nil, sa)
   if err != nil {
