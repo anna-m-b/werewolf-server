@@ -10,6 +10,10 @@ var mPlayer1 = entity.Player{
 	UserName: "jonny",
 }
 
+var mPlayer2 = entity.Player{
+	UserName: "tally",
+}
+
 func TestCreateGame(t *testing.T) {
 	g := entity.CreateGame(mPlayer1)
 
@@ -27,9 +31,6 @@ func TestCreateGame(t *testing.T) {
 }
 
 func TestAddPlayer(t *testing.T) {
-	mPlayer2 := entity.Player{
-		UserName: "tally",
-	}
 	g := entity.CreateGame(mPlayer1)
 
 	g.AddPlayer(mPlayer2)
@@ -47,4 +48,10 @@ func TestUpdateStage(t *testing.T) {
 	if g.Stage != "new stage" {
 		t.Errorf("Game Stage was incorrect, got %v, want %v", g.Stage, "new stage")
 	}
+}
+
+func TestAssignRoles(t *testing.T) {
+	g := entity.CreateGame(mPlayer1)
+	g.AddPlayer(mPlayer2)
+	g.AssignRoles()
 }

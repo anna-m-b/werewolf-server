@@ -13,9 +13,7 @@ func TestCreatePlayer(t *testing.T) {
 	if p.UserName != "gopher" {
 		t.Errorf("UserName was incorrect, got: %v, want: %v.", p.UserName, "gopher")
 	}
-	if p.Role != "" {
-		t.Errorf("Player Role was incorrect, got: %v, want: %v.", p.Role, "")
-	}
+
 	if p.IsAlive != true {
 		t.Errorf("IsAlive was incorrect, got: %v, want: %v.", p.IsAlive, true)
 	}
@@ -23,11 +21,11 @@ func TestCreatePlayer(t *testing.T) {
 
 func TestSetRole(t *testing.T) {
 	p := entity.CreatePlayer("gopher")
+	expected := new(entity.Werewolf)
+	p.SetRole(expected)
 
-	p.SetRole("werewolf")
-
-	if p.Role != "werewolf" {
-		t.Errorf("Player role was incorrect, got %v, want %v", p.Role, "werewolf")
+	if p.Role != expected {
+		t.Errorf("Player role was incorrect, got %v, want %v", p.Role, expected)
 	}
 }
 

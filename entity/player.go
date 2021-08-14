@@ -1,20 +1,20 @@
 package entity
 
 type Player struct {
+	Id int
 	UserName string
-	Role string
+	Role PlayerRole
 	IsAlive bool
 }
 
 func CreatePlayer(name string) Player {
 	return Player {
 		UserName: name,
-		Role: "",
 		IsAlive: true,
 	}
 }
 
-func ( p *Player) SetRole(r string) {
+func (p *Player) SetRole(r PlayerRole) {
 	p.Role = r
 }
 

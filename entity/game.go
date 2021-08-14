@@ -31,3 +31,14 @@ func (g *Game) AddPlayer(p Player) {
 func (g *Game) UpdateStage(s string) {
 	g.Stage = s
 }
+
+func (g *Game) AssignRoles() {
+
+	
+
+
+	// g.Players[0].Role = roles[0]
+	// g.Players[0].Role.SayHello()
+	
+
+}
