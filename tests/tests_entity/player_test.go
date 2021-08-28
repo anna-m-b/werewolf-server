@@ -21,7 +21,7 @@ func TestCreatePlayer(t *testing.T) {
 
 func TestSetRole(t *testing.T) {
 	p := entity.CreatePlayer("gopher")
-	expected := new(entity.Werewolf)
+	expected := entity.CreateWerewolf()
 	p.SetRole(expected)
 
 	if p.Role != expected {

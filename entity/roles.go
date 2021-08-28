@@ -2,45 +2,73 @@ package entity
 
 import "fmt"
 
-type Villager struct {
+type IRole interface {	
+	Accuse(playerId string, g *Game)
 }
 
-func (v *Villager) SayHello() {
-	fmt.Println("hello I'm a villager")
+type SRole struct {
+	Name string	
+}
+
+func (r SRole) Accuse(playerId string, g *Game) {
+	g.AccusedPlayersIds = append(g.AccusedPlayersIds, playerId)
+	fmt.Printf("player with id %v has been accused", playerId)
+}
+
+type Villager struct {
+	SRole
+}
+
+func CreateVillager() Villager {
+	return Villager {
+		SRole{Name: "villager",},
+	}
 }
 
 type Werewolf struct {
-	Name string
+	SRole	
 }
 
-func (w *Werewolf) SayHello() {
-	fmt.Println("hello I'm a werewolf")
+func CreateWerewolf() Werewolf {
+	return Werewolf {
+		SRole{Name: "werewolf",},
+	}
 }
 
 type Seer struct {
+	SRole
 }
 
-func (s *Seer) SayHello() {
-	fmt.Println("hello I'm a seer")
+
+func CreateSeer() Seer {
+	return Seer {
+		SRole{Name: "seer",},
+	}
 }
 
 type Healer struct {
+	SRole
+	
 }
 
-func (h *Healer) SayHello() {
-	fmt.Println("hello I'm a healer")
+
+func CreateHealer() Healer {
+	return Healer {
+		SRole{Name: "healer",},
+	}
 }
 
-type PlayerRole interface{
-	SayHello()
-}
 
-func CreateRolesSlice(n int) []PlayerRole {
-	roles := []PlayerRole{new(Werewolf), new(Werewolf), new(Healer), new(Seer)}
+
+
+// will need to adjust this to handle games of 8+
+// should it be moved to util?
+func CreateRolesSlice(n int) []IRole {
+	roles := []IRole{ CreateWerewolf(), CreateWerewolf(), CreateHealer(), CreateSeer() }
 	n = n-4
 	i := 0
 	for (i < n) {
-		roles = append(roles, new(Villager))
+		roles = append(roles, CreateVillager())
 		i++
 	}
 	return roles
