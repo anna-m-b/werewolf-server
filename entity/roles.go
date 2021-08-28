@@ -62,7 +62,6 @@ func CreateHealer() Healer {
 
 
 // will need to adjust this to handle games of 8+
-// should it be moved to util?
 func CreateRolesSlice(n int) []IRole {
 	roles := []IRole{ CreateWerewolf(), CreateWerewolf(), CreateHealer(), CreateSeer() }
 	n = n-4
@@ -73,3 +72,9 @@ func CreateRolesSlice(n int) []IRole {
 	}
 	return roles
 }
+
+func RemovePlayerRoleFromSlice(s []IRole, index int) []IRole {
+    ret := make([]IRole, 0)
+    ret = append(ret, s[:index]...)
+    return append(ret, s[index+1:]...)
+}//https://stackoverflow.com/questions/37334119/how-to-delete-an-element-from-a-slice-in-golang
