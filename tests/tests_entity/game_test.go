@@ -7,10 +7,6 @@ import (
 	"github.com/anna-m-b/werewolf-server/entity"
 )
 
-var mPlayer1 = entity.CreatePlayer("jonny")
-
-var mPlayer2 = entity.CreatePlayer("tally")
-
 func TestCreateGame(t *testing.T) {
 	g := entity.CreateGame(mPlayer1)
 
@@ -63,26 +59,51 @@ func TestToggleIsActive(t *testing.T) {
 }
 
 func TestAssignRolesToSevenPlayers(t *testing.T) {
-	//set up a game with 7 players
 	g := entity.CreateGame(mPlayer1)
 	for i := 0; i < 6; i++ {
 		g.Players = append(g.Players, entity.CreatePlayer("player"))
 	}
-	t.Logf("players length is: %v", len(g.Players))
 	
-	//call assign roles
 	g.AssignRoles()
-	//check all players have a role
+
+	roleCount := struct {
+		werewolves int
+		seer int
+		healer int
+		villagers int
+	}{
+		0,
+		0,
+		0,
+		0,
+	}
+
 	for _, p := range g.Players {
-		if p.Role == nil {
-			t.Errorf("AssignRoles incorrect: got %T, wanted a role type", p.Role)
+		switch p.SpecialRole {
+		case entity.CreateWerewolf():
+			roleCount.werewolves++
+		case entity.CreateHealer():
+			roleCount.healer++
+		case entity.CreateSeer():
+			roleCount.seer++
+		case nil:
+			roleCount.villagers++
 		}
 	}
-	t.Log(g.Players)
-	//check the number of werewolves is 2, seer 1, healer 1, villagers 3
+	
+	if roleCount.werewolves != 2 {
+		t.Errorf("Wolf count wrong: got %v, wanted 2", roleCount.werewolves)
+	}
+	if roleCount.healer != 1 {
+		t.Errorf("healer count wrong: got %v, wanted 1", roleCount.healer)
+	}
+	if roleCount.seer != 1 {
+		t.Errorf("seer count wrong: got %v, wanted 1", roleCount.seer)
+	}
+	if roleCount.villagers != 3 {
+		t.Errorf("villager count wrong: got %v, wanted 3", roleCount.villagers)
+	}
+
+
 	// test that it assigns roles in a different order every time
 }
-
-// if reflect.TypeOf(p.Role) != reflect.TypeOf(entity.CreateWerewolf()) || reflect.TypeOf(p.Role) != reflect.TypeOf(entity.CreateVillager()) || reflect.TypeOf(p.Role) != reflect.TypeOf(entity.CreateSeer()) || reflect.TypeOf(p.Role) != reflect.TypeOf(entity.CreateHealer()) {
-// 	t.Errorf("Player %v has no role: want a role, got: %v", p, reflect.TypeOf(p.Role))
-// }
