@@ -23,6 +23,7 @@ func CreateWerewolf() Werewolf {
 type Seer struct {
 	Name string
 }
+
 func (s Seer) NightAction(playerId string) {
 	fmt.Printf("checked player for wolfyness %v", playerId)
 }
@@ -47,10 +48,6 @@ func CreateHealer() Healer {
 	}
 }
 
-
-
-
-// will need to adjust this to handle games of 8+
 func CreateRolesSlice(n int) []SpecialRole {
 	roles := []SpecialRole{ CreateWerewolf(), CreateWerewolf(), CreateHealer(), CreateSeer() }
 	n = n-4

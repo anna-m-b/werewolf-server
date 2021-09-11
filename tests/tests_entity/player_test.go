@@ -42,9 +42,8 @@ func TestKillPlayer(t *testing.T) {
 
 func TestAccuse(t *testing.T) {
 	g := entity.CreateGame(mPlayer1)
-	gp := &g
 	
-	mPlayer1.Accuse("3ff", gp)
+	mPlayer1.Accuse("3ff", g)
 
 	if len(g.AccusedPlayersIds) != 1 {
 		t.Errorf("Accused Players has not been added to, length is: %v, want: 1", len(g.AccusedPlayersIds))
@@ -55,9 +54,8 @@ func TestAccuse(t *testing.T) {
 
 func TestSecond(t *testing.T){
 	g := entity.CreateGame(mPlayer1)
-	gp := &g
 
-	mPlayer1.Second("3ff", gp)
+	mPlayer1.Second("3ff", g)
 
 	if g.SecondedPlayerId != "3ff" {
 		t.Errorf("SecondedPlayerId incorrect: want '3ff', got %v", g.SecondedPlayerId)

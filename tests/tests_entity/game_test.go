@@ -10,9 +10,9 @@ import (
 func TestCreateGame(t *testing.T) {
 	g := entity.CreateGame(mPlayer1)
 
-    if g.IsActive != true {
-        t.Errorf("Game IsActive was incorrect, got: %v, want: %v.", g.IsActive, true)
-    }
+	if g.IsActive != true {
+		t.Errorf("Game IsActive was incorrect, got: %v, want: %v.", g.IsActive, true)
+	}
 
 	if g.Stage != "lobby" {
 		t.Errorf("Game Stage was incorrect, got: %v, want: %v.", g.Stage, "lobby")
@@ -27,6 +27,17 @@ func TestCreateGame(t *testing.T) {
 	}
 }
 
+func TestAddGameToLiveGames(t *testing.T) {
+	g := entity.CreateGame(mPlayer1)
+	entity.AddGameToLiveGames(g)
+	if len(entity.LiveGames) != 1 {
+		t.Errorf("Live Games length not correct, want 1, got %v", len(entity.LiveGames))
+	}
+	if entity.LiveGames[0] != g {
+		t.Errorf("Live Games 0 is not new game, want %v, got %v", g, entity.LiveGames[0])
+	}
+}
+
 func TestAddPlayer(t *testing.T) {
 	g := entity.CreateGame(mPlayer1)
 
@@ -35,6 +46,21 @@ func TestAddPlayer(t *testing.T) {
 	if len(g.Players) != 2 {
 		t.Errorf("Players Length was incorrect, got: %v, want: %v.", len(g.Players), 2)
 	}
+}
+
+func TestMaximumNumberOfPlayersIs15(t *testing.T) {
+	g := entity.CreateGame(mPlayer1)
+	for i := 0; i < 14; i++ {
+		g.Players = append(g.Players, entity.CreatePlayer("player"))
+	}
+	t.Logf("Player length is: %v", len(g.Players))
+
+	g.AddPlayer(mPlayer2)
+
+	if len(g.Players) > 15 {
+		t.Errorf("Maximum players exceeded. Length is: %v", len(g.Players))
+	}
+
 }
 
 func TestUpdateStage(t *testing.T) {
@@ -63,14 +89,14 @@ func TestAssignRolesToSevenPlayers(t *testing.T) {
 	for i := 0; i < 6; i++ {
 		g.Players = append(g.Players, entity.CreatePlayer("player"))
 	}
-	
+
 	g.AssignRoles()
 
 	roleCount := struct {
 		werewolves int
-		seer int
-		healer int
-		villagers int
+		seer       int
+		healer     int
+		villagers  int
 	}{
 		0,
 		0,
@@ -90,7 +116,7 @@ func TestAssignRolesToSevenPlayers(t *testing.T) {
 			roleCount.villagers++
 		}
 	}
-	
+
 	if roleCount.werewolves != 2 {
 		t.Errorf("Wolf count wrong: got %v, wanted 2", roleCount.werewolves)
 	}
@@ -103,7 +129,6 @@ func TestAssignRolesToSevenPlayers(t *testing.T) {
 	if roleCount.villagers != 3 {
 		t.Errorf("villager count wrong: got %v, wanted 3", roleCount.villagers)
 	}
-
 
 	// test that it assigns roles in a different order every time
 }

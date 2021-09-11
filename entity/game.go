@@ -1,45 +1,51 @@
 package entity
 
 import (
+	"fmt"
 	"math/rand"
 	"time"
 
 	"github.com/anna-m-b/werewolf-server/util"
 )
 
-// do we need this?
 var gameStages = [6]string{"lobby", "ready", "day", "voting", "night", "end"}
 
 type Game struct {
-	CreatedOn time.Time
-	IsActive  bool
-	Id        string
-	Players   []*Player
-	Stage     string
+	CreatedOn         time.Time
+	IsActive          bool
+	Id                string
+	Players           []*Player
+	Stage             string
 	AccusedPlayersIds []string
-	SecondedPlayerId string
-	VotesToKill int
-	VotesToSave int
-} 
+	SecondedPlayerId  string
+	VotesToKill       int
+	VotesToSave       int
+}
 
-func CreateGame(p *Player) Game {
-	return Game{
+func CreateGame(p *Player) *Game {
+	return &Game {
 		CreatedOn: time.Now(),
 		IsActive:  true,
-		Id: util.GenerateShortId(),
+		Id:        util.GenerateShortId(),
 		Players: []*Player{
 			p,
 		},
-		Stage: gameStages[0],
+		Stage:             gameStages[0],
 		AccusedPlayersIds: make([]string, 0),
-		SecondedPlayerId: "",
-		VotesToKill: 0,
-		VotesToSave: 0,
+		SecondedPlayerId:  "",
+		VotesToKill:       0,
+		VotesToSave:       0,
 	}
 }
 
+
+
 func (g *Game) AddPlayer(p *Player) {
-	g.Players = append(g.Players, p)
+	if len(g.Players) < 15 {
+		g.Players = append(g.Players, p)
+	} else {
+		fmt.Println("Sorry, max number of players is 15")
+	}
 }
 
 // update this to not need input and use gameStages array + game state
@@ -76,7 +82,5 @@ func (g *Game) AssignRoles() {
 
 }
 
-// func ShouldGameEnd 
+// func ShouldGameEnd
 // checks if enough players are dead for one side to win
-
-
