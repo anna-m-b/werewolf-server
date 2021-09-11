@@ -1,7 +1,6 @@
 package entity
 
 import (
-	"fmt"
 	"math/rand"
 	"time"
 
@@ -15,7 +14,7 @@ type Game struct {
 	CreatedOn time.Time
 	IsActive  bool
 	Id        string
-	Players   []Player
+	Players   []*Player
 	Stage     string
 	AccusedPlayersIds []string
 	SecondedPlayerId string
@@ -23,12 +22,12 @@ type Game struct {
 	VotesToSave int
 } 
 
-func CreateGame(p Player) Game {
+func CreateGame(p *Player) Game {
 	return Game{
 		CreatedOn: time.Now(),
 		IsActive:  true,
 		Id: util.GenerateShortId(),
-		Players: []Player{
+		Players: []*Player{
 			p,
 		},
 		Stage: gameStages[0],
@@ -39,7 +38,7 @@ func CreateGame(p Player) Game {
 	}
 }
 
-func (g *Game) AddPlayer(p Player) {
+func (g *Game) AddPlayer(p *Player) {
 	g.Players = append(g.Players, p)
 }
 
@@ -69,14 +68,15 @@ func (g *Game) ToggleIsActive() {
 
 func (g *Game) AssignRoles() {
 	rs := CreateRolesSlice(len(g.Players))
-
 	for _, p := range g.Players {
 		index := rand.Intn(len(rs))
-		p.Role = rs[index]
-		fmt.Println(p)
+		p.SpecialRole = rs[index]
 		rs = RemovePlayerRoleFromSlice(rs, index)
 	}
+
 }
 
 // func ShouldGameEnd 
 // checks if enough players are dead for one side to win
+
+

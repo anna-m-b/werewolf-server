@@ -2,59 +2,48 @@ package entity
 
 import "fmt"
 
-type IRole interface {	
-	Accuse(playerId string, g *Game)
+type SpecialRole interface {	
+	NightAction(playerId string)
 }
 
-type SRole struct {
-	Name string	
+type Werewolf struct {		
+	Name string
 }
 
-func (r SRole) Accuse(playerId string, g *Game) {
-	g.AccusedPlayersIds = append(g.AccusedPlayersIds, playerId)
-	fmt.Printf("player with id %v has been accused", playerId)
-}
-
-type Villager struct {
-	SRole
-}
-
-func CreateVillager() Villager {
-	return Villager {
-		SRole{Name: "villager",},
-	}
-}
-
-type Werewolf struct {
-	SRole	
+func (w Werewolf) NightAction(playerId string) {
+	fmt.Printf("chose victim %v", playerId)
 }
 
 func CreateWerewolf() Werewolf {
 	return Werewolf {
-		SRole{Name: "werewolf",},
+		Name: "werewolf",
 	}
 }
 
 type Seer struct {
-	SRole
+	Name string
 }
-
+func (s Seer) NightAction(playerId string) {
+	fmt.Printf("checked player for wolfyness %v", playerId)
+}
 
 func CreateSeer() Seer {
 	return Seer {
-		SRole{Name: "seer",},
+		Name: "seer",
 	}
 }
 
 type Healer struct {
-	SRole
-	
+	Name string
 }
 
+func (h Healer) NightAction(playerId string) {
+	fmt.Printf("healed player %v", playerId)
+}
 
 func CreateHealer() Healer {
 	return Healer {
-		SRole{Name: "healer",},
+		Name: "healer",
 	}
 }
 
@@ -62,19 +51,19 @@ func CreateHealer() Healer {
 
 
 // will need to adjust this to handle games of 8+
-func CreateRolesSlice(n int) []IRole {
-	roles := []IRole{ CreateWerewolf(), CreateWerewolf(), CreateHealer(), CreateSeer() }
+func CreateRolesSlice(n int) []SpecialRole {
+	roles := []SpecialRole{ CreateWerewolf(), CreateWerewolf(), CreateHealer(), CreateSeer() }
 	n = n-4
 	i := 0
 	for (i < n) {
-		roles = append(roles, CreateVillager())
+		roles = append(roles, nil)
 		i++
 	}
 	return roles
 }
 
-func RemovePlayerRoleFromSlice(s []IRole, index int) []IRole {
-    ret := make([]IRole, 0)
+func RemovePlayerRoleFromSlice(s []SpecialRole, index int) []SpecialRole {
+    ret := make([]SpecialRole, 0)
     ret = append(ret, s[:index]...)
     return append(ret, s[index+1:]...)
 }//https://stackoverflow.com/questions/37334119/how-to-delete-an-element-from-a-slice-in-golang
