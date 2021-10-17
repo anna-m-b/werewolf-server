@@ -2,7 +2,6 @@ package entity
 
 import (
 	"fmt"
-	"math/rand"
 	"time"
 
 	"github.com/anna-m-b/werewolf-server/util"
@@ -14,10 +13,8 @@ type Game struct {
 	CreatedOn         time.Time
 	IsActive          bool
 	Id                string
+	Phase             GamePhase
 	Players           []*Player
-	Stage             string
-	AccusedPlayersIds []string
-	SecondedPlayerId  string
 	VotesToKill       int
 	VotesToSave       int
 }
@@ -72,15 +69,7 @@ func (g *Game) ToggleIsActive() {
 	}
 }
 
-func (g *Game) AssignRoles() {
-	rs := CreateRolesSlice(len(g.Players))
-	for _, p := range g.Players {
-		index := rand.Intn(len(rs))
-		p.SpecialRole = rs[index]
-		rs = RemovePlayerRoleFromSlice(rs, index)
-	}
 
-}
 
 // func ShouldGameEnd
 // checks if enough players are dead for one side to win

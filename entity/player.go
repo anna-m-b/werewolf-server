@@ -22,31 +22,31 @@ func CreatePlayer(name string) *Player {
 	}
 }
 
-func (p Player) Accuse(playerId string, g *Game) {
-	g.AccusedPlayersIds = append(g.AccusedPlayersIds, playerId)
-	fmt.Printf("player with id %v has been accused", playerId)
-}
+// func (p Player) Accuse(playerId string, g *Game) {
+// 	g.AccusedPlayersIds = append(g.AccusedPlayersIds, playerId)
+// 	fmt.Printf("player with id %v has been accused", playerId)
+// }
 
-func (p Player) Second(playerId string, g *Game) {
-	if g.SecondedPlayerId == "" {
-		g.SecondedPlayerId = playerId
-		fmt.Printf("player with id %v has been seconded", playerId)
-	} else {
-		fmt.Printf("a player has already been seconded, cannot second another player")
-	}
-}
+// func (p Player) Second(playerId string, g *Game) {
+// 	if g.SecondedPlayerId == "" {
+// 		g.SecondedPlayerId = playerId
+// 		fmt.Printf("player with id %v has been seconded", playerId)
+// 	} else {
+// 		fmt.Printf("a player has already been seconded, cannot second another player")
+// 	}
+// }
 
-func (p Player) Vote(v string, g *Game) {
-	if v == "kill" {
-		g.VotesToKill++
-	}
-	if v =="save" {
-		g.VotesToSave++
-	} else {
-		fmt.Println("error: vote not recognised")
-	}
+// func (p Player) Vote(v string, g *Game) {
+// 	if v == "kill" {
+// 		g.VotesToKill++
+// 	}
+// 	if v =="save" {
+// 		g.VotesToSave++
+// 	} else {
+// 		fmt.Println("error: vote not recognised")
+// 	}
 
-}
+// }
 
 
 //should these  be attached to the game, and not used by any players?
